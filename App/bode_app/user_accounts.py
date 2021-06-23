@@ -13,3 +13,14 @@ def login():
         password = request.form.get("login-password", '')
         print(username, password)
         return render_template('User_Profile.html', name='Test1')
+
+ def logincheck(x,y):
+  for g in x:
+    if g == x:
+      return loginin
+    if g!= x:
+      print("Inaccurate login in. Try again")
+
+def loginin(x,y):
+  for z in x:
+    return z 
