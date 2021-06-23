@@ -24,3 +24,13 @@ def login():
 def loginin(x,y):
   for z in x:
     return z 
+
+def databases(x):
+   for z in g:
+    g.append(y)
+    return g
+
+def dictionary(x):
+  y = [] 
+  y.append(x)
+  return y 
