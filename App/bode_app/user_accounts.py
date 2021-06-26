@@ -1,36 +1,33 @@
-# background: linear-gradient(to right, #b92b27, #1565c0)
-from . import bode
-from flask import request, render_template
-
+from . import bode, login_manager
+from flask import request, render_template, redirect
+from .models import User
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_required, login_user, logout_user, current_user
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 @bode.route('/', methods=['POST', 'GET'])
 def login():
-    print('request')
-    if request.method == 'GET':
+    if current_user.is_authenticated:
+        return redirect('/user')
+    elif request.method == 'GET':
         return render_template('Login.html')
     elif request.method == 'POST':
         username = request.form.get("login-username", '')
         password = request.form.get("login-password", '')
-        print(username, password)
-        return render_template('User_Profile.html', name='Test1')
+        current = User.query.filter_by(username=username).first()
+        if check_password_hash(current.password, password):
+            login_user(current.id)
+        return redirect('/user')
 
- def logincheck(x,y):
-  for g in x:
-    if g == x:
-      return loginin
-    if g!= x:
-      print("Inaccurate login in. Try again")
+@bode.route('/user')
+@login_required
+def profile():
+    return render_template('User_Profile.html', name=current_user.username)
 
-def loginin(x,y):
-  for z in x:
-    return z 
-
-def databases(x):
-   for z in g:
-    g.append(y)
-    return g
-
-def dictionary(x):
-  y = [] 
-  y.append(x)
-  return y 
+@bode.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/')
