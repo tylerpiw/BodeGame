@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<!--<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">-->
 <head>
     <meta charset="UTF-8">
     <title>User Profile</title>
@@ -7,11 +7,12 @@
 <body>
     <h1>Hey, {{ name }} </h1>
 <hr/>
-    <form>
-        <form action="/create_class" method="post" enctype="multipart/form-data">
+    <form action="/create_class" method="post" enctype="multipart/form-data">
+        <label for="class_name">Name</label>
+        <input type="text" name="class_name" id="class_name" required/></br>
         <label for="class_csv">Create a new class</label>
-        <input type="file" name="class_csv" id="class_csv"></br>
-        <input type="submit" name="submit">
+        <input type="file" name="class_csv" id="class_csv" required/><br/>
+        <input type="submit" name="submit"/>
     </form>
 </body>
 </html>
