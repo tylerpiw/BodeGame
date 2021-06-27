@@ -1,11 +1,12 @@
 from . import bode, login_manager
 from flask import request, render_template, redirect
 from .models import User
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return User.query.get(user_id)
 
 @bode.route('/', methods=['POST', 'GET'])
 def login():
@@ -18,7 +19,7 @@ def login():
         password = request.form.get("login-password", '')
         current = User.query.filter_by(username=username).first()
         if check_password_hash(current.password, password):
-            login_user(current.id)
+            login_user(current)
         return redirect('/user')
 
 @bode.route('/user')
