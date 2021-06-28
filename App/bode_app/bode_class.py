@@ -1,6 +1,6 @@
 from . import bode, db
-from flask import request, render_template, redirect, flash
-from flask_login import login_required, login_user, logout_user, current_user
+from flask import request, redirect, flash
+from flask_login import login_required
 from werkzeug.security import generate_password_hash
 import json
 from .models import Class, User
@@ -17,7 +17,7 @@ def createFromJson(class_name, class_data):
         current_student = User(username=c.split('@')[0],
                        class_id=current_class.id,
                        email=c,
-                       password=generate_password_hash(password),
+                       password='replace',
                        temp_password=password)
         print(c, password)
         db.session.add(current_student)
@@ -32,11 +32,11 @@ def create_class():
     path = 'App/Class_Json/{0}.json'.format(name)
     ext = class_json.filename.split('.')[-1]
     if ext == 'txt':
-        # try:
-        class_json.save(path)
-        class_json.close()
-        class_data = json.loads(open(path, newline='').read())['email']
-        createFromJson(name, class_data)
-        # except:
-        #     flash('Something went wrong in the upload')
+        try:
+            class_json.save(path)
+            class_json.close()
+            class_data = json.loads(open(path, newline='').read())['email']
+            createFromJson(name, class_data)
+        except:
+            flash('Something went wrong in the upload')
     return redirect('/')
