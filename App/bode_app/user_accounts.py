@@ -1,6 +1,6 @@
 from . import bode, login_manager
 from flask import request, render_template, redirect
-from .models import User
+from .models import User, Class
 from werkzeug.security import check_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
@@ -25,7 +25,8 @@ def login():
 @bode.route('/user')
 @login_required
 def profile():
-    return render_template('User_Profile.html', name=current_user.username)
+    all_classes = Class.query.order_by(Class.date).all()
+    return render_template('User_Profile.html', name=current_user.username, classes=all_classes)
 
 @bode.route('/logout')
 @login_required

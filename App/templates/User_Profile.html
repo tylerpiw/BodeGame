@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<!--<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">-->
+<html xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
     <title>User Profile</title>
 </head>
 <body>
@@ -10,13 +9,23 @@
     <form action="/create_class" method="post" enctype="multipart/form-data">
         <label for="class_name">Name</label>
         <input type="text" name="class_name" id="class_name" required/></br>
-        <label for="class_csv">Create a new class</label>
-        <input type="file" name="class_csv" id="class_csv" required/><br/>
-        <input type="submit" name="submit"/>
+        <label for="class_json">Create a new class</label>
+        <input type="file" name="class_json" id="class_json" required/><br/>
+        <input type="submit" name="Submit"/>
     </form>
+<div id="classes">
+    {% for class in classes %}
+        {{class.name}}</br>
+    {% endfor %}
+</div>
 </body>
 </html>
 
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>User Profile</title>-->
+<!--</head>-->
+<!--<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">-->
 <!--<link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 <!--<div class ="card">-->
 <!--  <img src="img.jpg" alt="" style="width:100%">-->
