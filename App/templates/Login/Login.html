@@ -4,15 +4,15 @@
 </head>
 <body>
     <h2>Login</h2>
+    <form action="/" id=login-form" method="post" enctype="multipart/form-data">
+      <label for="login-username-id">User Name: </label>
+      <input id="login-username-id" type="text" name="login-username" required><br/>
+      <label for="login-password-id">Password: </label>
+      <input id="login-password-id" type="password" name="login-password" required><br/>
+      <input type="submit" value="Login">
+    </form>
     {% for msg in get_flashed_messages() %}
         <div class="msg">{{ msg }}</div>
     {% endfor %}
-    <form action="/" id=login-form" method="post" enctype="multipart/form-data">
-      <label for="login-username-id">User Name: </label>
-      <input id="login-username-id" type="text" name="login-username" required>
-      <label for="login-password-id">Password: </label>
-      <input id="login-password-id" type="password" name="login-password" required>
-      <input type="submit" value="Login">
-    </form><br>
 </body>
 </html>

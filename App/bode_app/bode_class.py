@@ -16,6 +16,7 @@ def createFromJson(class_name, class_data):
         password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         current_student = User(username=c.split('@')[0],
                        class_id=current_class.id,
+                       type='student',
                        email=c,
                        password='replace',
                        temp_password=password)

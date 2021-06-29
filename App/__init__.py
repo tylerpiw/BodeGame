@@ -14,7 +14,11 @@ def bode_app():
     with app.app_context():
         db.create_all()
         if models.User.query.filter_by(username='Test_Admin').first() == None:
-            admin = models.User(username='Test_Admin', class_id=-1, email='Test_Admin@buffalo.edu', password=generate_password_hash('Test'))
+            admin = models.User(username='Test_Admin',
+                                class_id=-1,
+                                type='admin',
+                                email='Test_Admin@buffalo.edu',
+                                password=generate_password_hash('Test'))
             models.db.session.add(admin)
             models.db.session.commit()
     app.register_blueprint(bode)
