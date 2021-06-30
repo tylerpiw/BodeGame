@@ -4,9 +4,11 @@ from .models import User, Class
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 
 @bode.route('/', methods=['POST', 'GET'])
 def login():
@@ -18,10 +20,8 @@ def login():
         username = request.form.get("login-username", '')
         password = request.form.get("login-password", '')
         current = User.query.filter_by(username=username).first()
-        print(current)
         if not current:
             flash('User does not exits')
-        elif current.password == 'replace':
         elif check_password_hash(current.password, password):
             login_user(current)
         return redirect('/user')
@@ -35,9 +35,10 @@ def changePassword():
     confirm_password = request.form.get('confirm-password', '')
     if new_password != confirm_password:
         flash('passwords don\'t match')
-    elif old_password == current_user.temp_password:
+    else:
         flash('password changed!')
         current_user.password = generate_password_hash(new_password)
+        current_user.first_login = False
         db.session.commit()
     return redirect('/user')
 
@@ -49,8 +50,8 @@ def profile():
         all_classes = Class.query.order_by(Class.date).all()
         return render_template('UserProfiles/admin_user_profile.html', classes=all_classes)
     else:
-        return render_template('UserProfiles/student_user_profile.html',
-                               firstLogin=(current_user.password == 'replace'))
+        return render_template('UserProfiles/student_user_profile.html', firstLogin=current_user.first_login)
+
 
 @bode.route('/logout')
 @login_required

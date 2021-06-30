@@ -15,11 +15,11 @@ def createFromJson(class_name, class_data):
     for c in class_data:
         password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         current_student = User(username=c.split('@')[0],
+                       first_login = True,
                        class_id=current_class.id,
                        type='student',
                        email=c,
-                       password='replace',
-                       temp_password=password)
+                       password=generate_password_hash(password))
         print(c, password)
         db.session.add(current_student)
     db.session.commit()

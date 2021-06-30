@@ -2,6 +2,7 @@ from flask import Flask
 from .bode_app import bode, models
 from werkzeug.security import generate_password_hash
 
+
 def bode_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'bodePlot'
@@ -13,7 +14,7 @@ def bode_app():
     db.init_app(app)
     with app.app_context():
         db.create_all()
-        if models.User.query.filter_by(username='Test_Admin').first() == None:
+        if models.User.query.filter_by(username='Test_Admin').first() is None:
             admin = models.User(username='Test_Admin',
                                 class_id=-1,
                                 type='admin',
