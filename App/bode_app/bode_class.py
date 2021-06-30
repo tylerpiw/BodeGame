@@ -41,24 +41,24 @@ def create_class():
         except:
             flash('Something went wrong in the upload')
     return redirect('/')
-def leaderboard(x):
-  x =[]
-  for g in x:
-    if g != x:
-      x.append(g)
-    else:
-      print (g)
-  
-import ctypes, sys
-
-def admin_powers():
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    else:
-        return False
-
-if admin_powers():
-    
-else:
-    # Re-run the program with admin rights
-    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+# def leaderboard(x):
+#   x =[]
+#   for g in x:
+#     if g != x:
+#       x.append(g)
+#     else:
+#       print (g)
+#
+# import ctypes, sys
+#
+# def admin_powers():
+#     try:
+#         return ctypes.windll.shell32.IsUserAnAdmin()
+#     else:
+#         return False
+#
+# if admin_powers():
+#
+# else:
+#     # Re-run the program with admin rights
+#     ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
