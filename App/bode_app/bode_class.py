@@ -48,4 +48,17 @@ def leaderboard(x):
       x.append(g)
     else:
       print (g)
-       
+  
+import ctypes, sys
+
+def admin_powers():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    else:
+        return False
+
+if admin_powers():
+    
+else:
+    # Re-run the program with admin rights
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
