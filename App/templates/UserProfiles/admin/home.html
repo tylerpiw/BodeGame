@@ -1,0 +1,23 @@
+{% extends 'UserProfiles/admin/admin_profile_base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<h3>Home</h3>
+<hr/>
+    {% for msg in get_flashed_messages() %}
+        <div class="msg">{{ msg }}</div>
+    {% endfor %}
+    <form action="/create_class" method="post" enctype="multipart/form-data">
+        <label for="class_name">Name</label>
+        <input type="text" name="class_name" id="class_name" required/></br>
+        <label for="class_json">Create a new class</label>
+        <input type="file" name="class_json" id="class_json" required/><br/>
+        <input type="submit" name="Submit"/>
+    </form>
+    <div id="classes">
+        {% for class in classes %}
+            {{class.name}}</br>
+        {% endfor %}
+    </div>
+ {% endblock %}

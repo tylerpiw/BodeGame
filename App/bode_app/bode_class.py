@@ -1,6 +1,6 @@
 from . import bode, db
-from flask import request, redirect, flash
-from flask_login import login_required
+from flask import request, redirect, flash, render_template
+from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
 import json
 from .models import Class, User
@@ -15,11 +15,11 @@ def createFromJson(class_name, class_data):
     for c in class_data:
         password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         current_student = User(username=c.split('@')[0],
-                       first_login = True,
-                       class_id=current_class.id,
-                       type='student',
-                       email=c,
-                       password=generate_password_hash(password))
+                               first_login=True,
+                               class_id=current_class.id,
+                               type='student',
+                               email=c,
+                               password=generate_password_hash(password))
         print(c, password)
         db.session.add(current_student)
     db.session.commit()
@@ -41,24 +41,22 @@ def create_class():
         except:
             flash('Something went wrong in the upload')
     return redirect('/')
-# def leaderboard(x):
-#   x =[]
-#   for g in x:
-#     if g != x:
-#       x.append(g)
-#     else:
-#       print (g)
-#
-# import ctypes, sys
-#
-# def admin_powers():
-#     try:
-#         return ctypes.windll.shell32.IsUserAnAdmin()
-#     else:
-#         return False
-#
-# if admin_powers():
-#
-# else:
-#     # Re-run the program with admin rights
-#     ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+
+
+@bode.route('/Stats', methods=['GET', 'POST'])
+@login_required
+def class_stats():
+    if current_user.type == 'admin':
+        if request.method == 'GET':
+            return render_template('UserProfiles/admin/class_stats.html')
+    else:
+        flash('Not Authorised')
+        redirect('/user')
+
+
+@bode.route('/Messaging', methods=['GET', 'POST'])
+@login_required
+def messaging():
+    if current_user.type == 'admin':
+        if request.method == 'GET':
+            return render_template('UserProfiles/admin/messaging.html')

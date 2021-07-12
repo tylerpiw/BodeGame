@@ -48,7 +48,7 @@ def changePassword():
 def profile():
     if current_user.type == 'admin':
         all_classes = Class.query.order_by(Class.date).all()
-        return render_template('UserProfiles/admin_user_profile.html', classes=all_classes)
+        return render_template('UserProfiles/admin/home.html', classes=all_classes)
     else:
         return render_template('UserProfiles/student_user_profile.html', firstLogin=current_user.first_login)
 
