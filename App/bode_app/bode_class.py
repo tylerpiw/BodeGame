@@ -43,18 +43,27 @@ def create_class():
     return redirect('/')
 
 
-@bode.route('/Stats', methods=['GET', 'POST'])
+@bode.route('/stats', methods=['GET', 'POST'])
 @login_required
 def class_stats():
     if current_user.type == 'admin':
         if request.method == 'GET':
-            return render_template('UserProfiles/admin/class_stats.html')
+            all_classes = Class.query.order_by(Class.date).all()
+            return render_template('UserProfiles/admin/class_stats.html', classes=all_classes)
+        elif request.method == 'POST':
+            id = request.json.get('class_id')
+            users = User.query.filter_by(class_id=id).all()
+            returnTag = ''
+            for user in users:
+                print(user)
+                returnTag += '<div id={0}>{0}</div><hr/><br/>'.format(user.username)
+            return returnTag
     else:
         flash('Not Authorised')
         redirect('/user')
 
 
-@bode.route('/Messaging', methods=['GET', 'POST'])
+@bode.route('/messaging', methods=['GET', 'POST'])
 @login_required
 def messaging():
     if current_user.type == 'admin':

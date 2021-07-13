@@ -4,5 +4,16 @@
 
 {% block content %}
 <h3>Check Stats</h3>
-
+<hr/>
+  <label for="class">Choose a class:</label>
+  <select id="class" name="class">
+      {% for class in classes %}
+       <option value={{class.id}}>{{class.name}}</option>
+      {% endfor %}
+  </select>
+  <button onclick="getClassStats();">Get Data</button>
+<hr/>
+<div id="students">
+</div>
+<script src="/static/javascript/class_stats.js"></script>
 {% endblock %}

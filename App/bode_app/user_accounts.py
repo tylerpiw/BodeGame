@@ -1,6 +1,6 @@
 from . import bode, login_manager, db
 from flask import request, render_template, redirect, flash
-from .models import User, Class
+from .models import User
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
@@ -47,8 +47,7 @@ def changePassword():
 @login_required
 def profile():
     if current_user.type == 'admin':
-        all_classes = Class.query.order_by(Class.date).all()
-        return render_template('UserProfiles/admin/home.html', classes=all_classes)
+        return render_template('UserProfiles/admin/home.html')
     else:
         return render_template('UserProfiles/student_user_profile.html', firstLogin=current_user.first_login)
 

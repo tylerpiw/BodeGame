@@ -7,10 +7,13 @@
 <body>
     <ul class="topnav">
         <li><a class="active" href="/user">Home</a></li>
-        <li><a href="/Stats">Stats</a></li>
-        <li><a href="/Messaging">Messaging</a></li>
+        <li><a href="/stats">Stats</a></li>
+        <li><a href="/messaging">Messaging</a></li>
         <li class="right"><a href="/logout">logout</a></li>
     </ul>
+    {% for msg in get_flashed_messages() %}
+        <div class="msg">{{ msg }}</div>
+    {% endfor %}
 {% block content %} {% endblock %}
 </body>
 </html>
