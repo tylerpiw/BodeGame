@@ -62,10 +62,3 @@ def class_stats():
         flash('Not Authorised')
         redirect('/user')
 
-
-@bode.route('/messaging', methods=['GET', 'POST'])
-@login_required
-def messaging():
-    if current_user.type == 'admin':
-        if request.method == 'GET':
-            return render_template('UserProfiles/admin/messaging.html')

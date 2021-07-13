@@ -1,0 +1,14 @@
+{% extends 'UserProfiles/student/student_profile_base.html' %}
+
+{% block title %} Leader Board {% endblock %}
+
+{% block content %}
+<h3>Leader Board</h3>
+
+<div id="students">
+    {% for student in students %}
+        <div id="{{student.username}}">{{student.username}}</div><hr/><br/>
+    {% endfor %}
+</div>
+
+{% endblock %}

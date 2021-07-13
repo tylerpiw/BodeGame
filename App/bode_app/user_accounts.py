@@ -49,7 +49,7 @@ def profile():
     if current_user.type == 'admin':
         return render_template('UserProfiles/admin/home.html')
     else:
-        return render_template('UserProfiles/student_user_profile.html', firstLogin=current_user.first_login)
+        return render_template('UserProfiles/student/home.html')
 
 
 @bode.route('/logout')

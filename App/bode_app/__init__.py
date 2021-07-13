@@ -6,5 +6,5 @@ bode = Blueprint('application', __name__, template_folder='templates', static_fo
 db = SQLAlchemy()
 login_manager = LoginManager()
 
-from . import models, user_accounts, bode_class
+from . import models, user_accounts, bode_class, student
 
