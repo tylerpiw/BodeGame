@@ -60,10 +60,10 @@ def changePassword():
         
   
     if Condition  != "":
-        print(Condition + "\n Not a Valid Password")
+        flash(Condition + "\n Not a Valid Password")
     else:
        Condition  = ""
-       print("Valid Password")
+       #Valid Password
 
     
        if new_password != confirm_password:
