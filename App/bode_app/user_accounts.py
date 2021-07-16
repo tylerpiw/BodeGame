@@ -3,7 +3,7 @@ from flask import request, render_template, redirect, flash
 from .models import User
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
-
+import re
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -33,14 +33,47 @@ def changePassword():
     old_password = request.form.get('old-password', '')
     new_password = request.form.get('new-password', '')
     confirm_password = request.form.get('confirm-password', '')
-    if new_password != confirm_password:
-        flash('passwords don\'t match')
+
+    # checking if new password checks all the minimum Conditions
+
+    password = new_password
+    Condition = ""
+    lengthOfPassword = len(password)
+  
+    if (lengthOfPassword <8):
+        Condition += "\n minimum 8 characters required"
+        
+    if not re.search("[a-z]", password):
+        Condition += "\n minimum 1 Lowercase character required"
+         
+    if not re.search("[A-Z]", password):
+        Condition += "\n minimum 1 Uppercase character required"
+      
+    if not re.search("\d", password):
+        Condition += "\n minimum 1 numerical digit required "
+        
+    if not re.search("[_@$]", password):
+        Condition += "\n minimum 1 special character required"
+     
+    if re.search("\s", password):
+        Condition  += "\n no whitespace character"
+        
+  
+    if Condition  != "":
+        print(Condition + "\n Not a Valid Password")
     else:
-        flash('password changed!')
-        current_user.password = generate_password_hash(new_password)
-        current_user.first_login = False
-        db.session.commit()
-    return redirect('/user')
+       Condition  = ""
+       print("Valid Password")
+
+    
+       if new_password != confirm_password:
+         flash('passwords don\'t match')
+       else:
+         flash('password changed!')
+         current_user.password = generate_password_hash(new_password)
+         current_user.first_login = False
+         db.session.commit()
+       return redirect('/user')
 
 
 @bode.route('/user')
