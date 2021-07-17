@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 import re
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
@@ -39,41 +40,38 @@ def changePassword():
     password = new_password
     Condition = ""
     lengthOfPassword = len(password)
-  
-    if (lengthOfPassword <8):
+
+    if (lengthOfPassword < 8):
         Condition += "\n minimum 8 characters required"
-        
+
     if not re.search("[a-z]", password):
         Condition += "\n minimum 1 Lowercase character required"
-         
+
     if not re.search("[A-Z]", password):
         Condition += "\n minimum 1 Uppercase character required"
-      
+
     if not re.search("\d", password):
         Condition += "\n minimum 1 numerical digit required "
-        
+
     if not re.search("[_@$]", password):
         Condition += "\n minimum 1 special character required"
-     
-    if re.search("\s", password):
-        Condition  += "\n no whitespace character"
-        
-  
-    if Condition  != "":
-        flash(Condition + "\n Not a Valid Password")
-    else:
-       Condition  = ""
-       #Valid Password
 
-    
-       if new_password != confirm_password:
-         flash('passwords don\'t match')
-       else:
-         flash('password changed!')
-         current_user.password = generate_password_hash(new_password)
-         current_user.first_login = False
-         db.session.commit()
-       return redirect('/user')
+    if re.search("\s", password):
+        Condition += "\n no whitespace character"
+
+    if password == confirm_password:
+        Condition += '\n New Password same as old Password'
+
+    if Condition != "":
+        flash("Not a Valid Password as \n" + Condition)
+    else:
+        # Valid Password
+
+        flash('password changed!')
+        current_user.password = generate_password_hash(new_password)
+        current_user.first_login = False
+        db.session.commit()
+        return redirect('/user')
 
 
 @bode.route('/user')
