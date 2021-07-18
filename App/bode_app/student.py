@@ -14,10 +14,14 @@ def messaging():
             return render_template('UserProfiles/student/messaging.html')
 
 
-@bode.route('/game')
+@bode.route('/game', methods=['GET', 'POST'])
 @login_required
 def game():
-    return redirect('/static/html/BodeGame.html')
+    if request.method == 'GET':
+        return redirect('/static/html/BodeGame.html')
+    elif request.method == 'POST':
+        guess = request.form.get('guess')
+        return redirect('/game')
 
 
 @bode.route('/leaderboard')

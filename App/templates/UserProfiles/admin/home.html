@@ -12,7 +12,7 @@
         <input type="file" name="class_json" id="class_json" required/><br/>
         <input type="submit" name="Submit"/>
     </form><hr/>
-<div id="classes">
+    <div id="classes">
     {% for class in classes %}
     <div id="{{class.id}}">{{class.name}}&emsp;
         Status: {{class.type}}&emsp;
@@ -20,7 +20,21 @@
         <button onclick="deleteClass(this.parentNode.id);">Delete</button>
     </div><br/>
     {% endfor %}
-</div>
+    </div>
+
+    <form action="/addGame" method="post" enctype="multipart/form-data">
+        <label for="level_number">Level</label>
+        <input type="number" name="level_number" id="level_number" required/><br/>
+        <label for="level_answer">Answer</label>
+        <input type="number" name="level_answer" id="level_answer" required/><br/>
+        <input type="submit" name="Submit"/>
+    </form><hr/>
+    {% for level in levels %}
+    <div id="{{level.id}}">{{level.level}}&emsp;
+        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
+    </div><br/>
+    {% endfor %}
+
 
 <div id="result"></div>
 <script src="/static/javascript/home.js"></script>

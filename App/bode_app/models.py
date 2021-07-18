@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '<User %r>' % self.username
 
+
 class Class(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False, unique=True)
@@ -23,3 +24,22 @@ class Class(db.Model):
 
     def __repr__(self):
         return '<Class %r>' % self.name
+
+
+class GameLevels(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    level = db.Column(db.Integer, nullable=False)
+    answer = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return '<GameLevel %r>' % self.id
+
+
+class GameData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, nullable=False)
+    level = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return '<GameData %r>' % self.id

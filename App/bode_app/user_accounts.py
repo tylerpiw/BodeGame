@@ -59,8 +59,11 @@ def changePassword():
     if re.search("\s", password):
         Condition += "\n no whitespace character"
 
-    if password == confirm_password:
+    if password == old_password:
         Condition += '\n New Password same as old Password'
+
+    if password != confirm_password:
+        Condition += "\n Passwords don't Match"
 
     if Condition != "":
         flash("Not a Valid Password as \n" + Condition)

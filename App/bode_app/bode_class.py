@@ -3,7 +3,7 @@ from flask import request, redirect, flash, render_template
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
 import json
-from .models import Class, User
+from .models import Class, User, GameLevels
 import string
 import random
 
@@ -22,6 +22,7 @@ def createFromJson(class_name, class_data):
                                password=generate_password_hash(password))
         print(c, password)
         db.session.add(current_student)
+        print(current_student.id)
     db.session.commit()
 
 
@@ -53,8 +54,7 @@ def class_stats_post():
     users = User.query.filter_by(class_id=class_id).all()
     returnTag = ''
     for user in users:
-        print(user)
-        returnTag += '<div class_id={0}>{0}</div><hr/><br/>'.format(user.username)
+        returnTag += '<div class_id={0}>{0}&emsp;{1}</div><hr/><br/>'.format(user.username, user.id)
     return returnTag
 
 
@@ -73,8 +73,12 @@ def class_delete():
     db.session.commit()
     users = User.query.filter_by(class_id=class_id)
     for user in users:
+        print(user.id)
         db.session.delete(user)
     db.session.commit()
+    rem = User.query.order_by(User.id).all()
+    for i in rem:
+        print(i.id)
     return 'class deleted'
 
 
@@ -94,18 +98,23 @@ actionDictionary = {
 @login_required
 def class_actions(action):
     if current_user.type == 'admin':
-        # if request.method == 'GET':
-        #     all_classes = Class.query.order_by(Class.date).all()
-        #     return render_template('UserProfiles/admin/class_stats.html', classes=all_classes)
-        # elif request.method == 'POST':
-        #     id = request.json.get('class_id')
-        #     users = User.query.filter_by(class_id=id).all()
-        #     returnTag = ''
-        #     for user in users:
-        #         print(user)
-        #         returnTag += '<div id={0}>{0}</div><hr/><br/>'.format(user.username)
-        #     return returnTag
         return actionDictionary[request.method][action]()
     else:
         flash('Not Authorised')
         redirect('/user')
+
+
+@bode.route('/addGame', methods=['POST'])
+@login_required
+def addGame():
+    if current_user.type == 'admin':
+        level = request.form.get('level_number')
+        answer = request.form.get('level_answer')
+        new = GameLevels(level=level, answer=answer)
+        db.session.add(new)
+        db.session.commit()
+        return redirect('/user')
+    else:
+        flash('Not Authorised')
+        redirect('/user')
+
