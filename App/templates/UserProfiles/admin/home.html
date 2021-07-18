@@ -14,7 +14,14 @@
     </form><hr/>
 <div id="classes">
     {% for class in classes %}
-    <div id="{{class.id}}">{{class.name}}&emsp;Status: {{class.type}}&emsp;<button>Archive</button>&emsp;<button>Delete</button></div><br/>
+    <div id="{{class.id}}">{{class.name}}&emsp;
+        Status: {{class.type}}&emsp;
+        <button onclick="archiveClass(this.parentNode.id);">Archive</button>&emsp;
+        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
+    </div><br/>
     {% endfor %}
 </div>
+
+<div id="result"></div>
+<script src="/static/javascript/home.js"></script>
  {% endblock %}

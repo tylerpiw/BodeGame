@@ -43,22 +43,69 @@ def create_class():
     return redirect('/')
 
 
-@bode.route('/stats', methods=['GET', 'POST'])
+def class_stats_get():
+    all_classes = Class.query.order_by(Class.date).all()
+    return render_template('UserProfiles/admin/class_stats.html', classes=all_classes)
+
+
+def class_stats_post():
+    class_id = request.json.get('class_id')
+    users = User.query.filter_by(class_id=class_id).all()
+    returnTag = ''
+    for user in users:
+        print(user)
+        returnTag += '<div class_id={0}>{0}</div><hr/><br/>'.format(user.username)
+    return returnTag
+
+
+def class_archive():
+    class_id = request.json.get('class_id')
+    class_ = Class.query.filter_by(id=class_id).first()
+    class_.type = 'archived'
+    db.session.commit()
+    return 'class archived'
+
+
+def class_delete():
+    class_id = request.json.get('class_id')
+    class_ = Class.query.filter_by(id=class_id).first()
+    db.session.delete(class_)
+    db.session.commit()
+    users = User.query.filter_by(class_id=class_id)
+    for user in users:
+        db.session.delete(user)
+    db.session.commit()
+    return 'class deleted'
+
+
+actionDictionary = {
+    'GET': {
+        'class_stats_get': class_stats_get
+    },
+    'POST': {
+        'class_stats_post': class_stats_post,
+        'class_archive': class_archive,
+        'class_delete': class_delete
+    }
+}
+
+
+@bode.route('/class/<action>', methods=['GET', 'POST'])
 @login_required
-def class_stats():
+def class_actions(action):
     if current_user.type == 'admin':
-        if request.method == 'GET':
-            all_classes = Class.query.order_by(Class.date).all()
-            return render_template('UserProfiles/admin/class_stats.html', classes=all_classes)
-        elif request.method == 'POST':
-            id = request.json.get('class_id')
-            users = User.query.filter_by(class_id=id).all()
-            returnTag = ''
-            for user in users:
-                print(user)
-                returnTag += '<div id={0}>{0}</div><hr/><br/>'.format(user.username)
-            return returnTag
+        # if request.method == 'GET':
+        #     all_classes = Class.query.order_by(Class.date).all()
+        #     return render_template('UserProfiles/admin/class_stats.html', classes=all_classes)
+        # elif request.method == 'POST':
+        #     id = request.json.get('class_id')
+        #     users = User.query.filter_by(class_id=id).all()
+        #     returnTag = ''
+        #     for user in users:
+        #         print(user)
+        #         returnTag += '<div id={0}>{0}</div><hr/><br/>'.format(user.username)
+        #     return returnTag
+        return actionDictionary[request.method][action]()
     else:
         flash('Not Authorised')
         redirect('/user')
-
