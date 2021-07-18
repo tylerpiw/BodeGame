@@ -9,7 +9,7 @@ import random
 
 
 def createFromJson(class_name, class_data):
-    current_class = Class(name=class_name)
+    current_class = Class(name=class_name, type='active')
     db.session.add(current_class)
     db.session.commit()
     for c in class_data:

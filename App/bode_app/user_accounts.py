@@ -1,6 +1,6 @@
 from . import bode, login_manager, db
 from flask import request, render_template, redirect, flash
-from .models import User
+from .models import User, Class
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 import re
@@ -66,7 +66,6 @@ def changePassword():
         flash("Not a Valid Password as \n" + Condition)
     else:
         # Valid Password
-
         flash('password changed!')
         current_user.password = generate_password_hash(new_password)
         current_user.first_login = False
@@ -78,7 +77,8 @@ def changePassword():
 @login_required
 def profile():
     if current_user.type == 'admin':
-        return render_template('UserProfiles/admin/home.html')
+        all_classes = Class.query.order_by(Class.date).all()
+        return render_template('UserProfiles/admin/home.html', classes=all_classes)
     else:
         return render_template('UserProfiles/student/home.html')
 

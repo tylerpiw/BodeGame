@@ -11,5 +11,10 @@
         <label for="class_json">Create a new class</label>
         <input type="file" name="class_json" id="class_json" required/><br/>
         <input type="submit" name="Submit"/>
-    </form>
+    </form><hr/>
+<div id="classes">
+    {% for class in classes %}
+    <div id="{{class.id}}">{{class.name}}&emsp;Status: {{class.type}}&emsp;<button>Archive</button>&emsp;<button>Delete</button></div><br/>
+    {% endfor %}
+</div>
  {% endblock %}
