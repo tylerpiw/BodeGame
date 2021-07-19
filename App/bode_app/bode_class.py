@@ -11,17 +11,19 @@ import random
 def createFromJson(class_name, class_data):
     current_class = Class(name=class_name, type='active')
     db.session.add(current_class)
-    db.session.commit()
     for c in class_data:
         password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         current_student = User(username=c.split('@')[0],
                                class_id=current_class.id,
                                type='student',
                                email=c,
-                               password=generate_password_hash(password),
-                               game_level=1)
+                               password=generate_password_hash(password))
         print(c, password)
         db.session.add(current_student)
+        student_data = GameData(student_id=current_student.id, level=0, score=0)
+        db.session.add(student_data)
+        current_student.game_data.append(student_data)
+        current_class.students.append(current_student)
     db.session.commit()
 
 
@@ -33,13 +35,13 @@ def create_class():
     path = 'App/Class_Json/{0}.json'.format(name)
     ext = class_json.filename.split('.')[-1]
     if ext == 'txt':
-        # try:
-        class_json.save(path)
-        class_json.close()
-        class_data = json.loads(open(path, newline='').read())['email']
-        createFromJson(name, class_data)
-        # except:
-        #     flash('Something went wrong in the upload')
+        try:
+            class_json.save(path)
+            class_json.close()
+            class_data = json.loads(open(path, newline='').read())['email']
+            createFromJson(name, class_data)
+        except:
+            flash('Something went wrong in the upload')
     return redirect('/')
 
 
@@ -53,7 +55,9 @@ def class_stats_post():
     users = User.query.filter_by(class_id=class_id).all()
     returnTag = ''
     for user in users:
-        returnTag += '<div class_id={0}>{0}&emsp;{1}</div><hr/><br/>'.format(user.username, user.id)
+        print(user.game_data)
+        returnTag += '<div class_id={0}>{0}&emsp;{1}&emsp;{2}</div><hr/><br/>'.format(
+            user.username, user.game_data[0].level, user.game_data[0].score)
     return returnTag
 
 
@@ -70,14 +74,9 @@ def class_delete():
     class_ = Class.query.filter_by(id=class_id).first()
     db.session.delete(class_)
     db.session.commit()
-    users = User.query.filter_by(class_id=class_id)
-    for user in users:
-        print(user.id)
-        db.session.delete(user)
-    db.session.commit()
     rem = User.query.order_by(User.id).all()
     for i in rem:
-        print(i.id)
+        print(i.id, i.username)
     return 'class deleted'
 
 
