@@ -2,12 +2,16 @@
 
 {% block title %} Game {% endblock %}
 
-{% block content
+{% block content %}
 <h3>Game</h3>
-Level: {{level}}<br/>
-<form id="game-form" action="/game" method="post" enctype="multipart/form-data">
-    <label for="guess">Guess the Number</label>
-    <input id="guess" name="guess" type="number"/>
-    <input type="submit">
-</form>
+
+{% if levels %}
+    Level: {{ level }}<br/>
+    <form id="game-form" action="/game" method="post" enctype="multipart/form-data">
+        <label for="guess">Guess the Number</label>
+        <input id="guess" name="guess" type="number"/>
+        <input type="submit">
+    </form>
+{% endif %}
+
 {% endblock %}

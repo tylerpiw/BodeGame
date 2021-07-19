@@ -10,7 +10,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     type = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    first_login = db.Column(db.Boolean)
+    game_level = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User %r>' % self.username

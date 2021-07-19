@@ -3,7 +3,7 @@ from flask import request, redirect, flash, render_template
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
 import json
-from .models import Class, User, GameLevels
+from .models import Class, User, GameLevels, GameData
 import string
 import random
 
@@ -15,14 +15,13 @@ def createFromJson(class_name, class_data):
     for c in class_data:
         password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         current_student = User(username=c.split('@')[0],
-                               first_login=True,
                                class_id=current_class.id,
                                type='student',
                                email=c,
-                               password=generate_password_hash(password))
+                               password=generate_password_hash(password),
+                               game_level=1)
         print(c, password)
         db.session.add(current_student)
-        print(current_student.id)
     db.session.commit()
 
 
@@ -34,13 +33,13 @@ def create_class():
     path = 'App/Class_Json/{0}.json'.format(name)
     ext = class_json.filename.split('.')[-1]
     if ext == 'txt':
-        try:
-            class_json.save(path)
-            class_json.close()
-            class_data = json.loads(open(path, newline='').read())['email']
-            createFromJson(name, class_data)
-        except:
-            flash('Something went wrong in the upload')
+        # try:
+        class_json.save(path)
+        class_json.close()
+        class_data = json.loads(open(path, newline='').read())['email']
+        createFromJson(name, class_data)
+        # except:
+        #     flash('Something went wrong in the upload')
     return redirect('/')
 
 
@@ -108,7 +107,7 @@ def class_actions(action):
 @login_required
 def addGame():
     if current_user.type == 'admin':
-        level = request.form.get('level_number')
+        level = GameLevels.query.count()+1
         answer = request.form.get('level_answer')
         new = GameLevels(level=level, answer=answer)
         db.session.add(new)
