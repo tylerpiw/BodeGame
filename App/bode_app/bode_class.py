@@ -53,11 +53,16 @@ def class_stats_get():
 def class_stats_post():
     class_id = request.json.get('class_id')
     users = User.query.filter_by(class_id=class_id).all()
-    returnTag = ''
+    returnTag = '<tr><th>Rank</th><th>Username</th><th>Level</th><th>Score</th></tr>'
     for user in users:
-        print(user.game_data)
-        returnTag += '<div class_id={0}>{0}&emsp;{1}&emsp;{2}</div><hr/><br/>'.format(
-            user.username, user.game_data[0].level, user.game_data[0].score)
+        returnTag += '<tr id={0}>' \
+                        '<td>1</td>' \
+                        '<td>{0}</td>' \
+                        '<td>{1}</td>' \
+                        '<td>{2}</td>' \
+                     '</tr>'.format(user.username, user.game_data[0].level, user.game_data[0].score)
+
+    print(returnTag)
     return returnTag
 
 

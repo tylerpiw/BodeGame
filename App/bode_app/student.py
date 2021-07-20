@@ -1,7 +1,7 @@
 from . import bode, db
 from flask_login import login_required, current_user
 from flask import request, render_template, redirect, flash
-from .models import GameData, GameLevels
+from .models import GameLevels
 
 
 @bode.route('/messaging', methods=['GET', 'POST'])
@@ -25,12 +25,10 @@ def game():
         guess = int(request.form.get('guess'))
         level = GameLevels.query.filter_by(level=current_user.game_data[0].level+1).first()
         if guess == level.answer:
-            # student_data = GameData.query.filter_by(student_id=current_user.id).first()
             current_user.game_data[0].level += 1
             current_user.game_data[0].score += 5
             flash('Correct Answer!')
         else:
-            # student_data = GameData.query.filter_by(student_id=current_user.id).first()
             current_user.game_data[0].score -= 1
             flash('Wrong Answer!')
         db.session.commit()
