@@ -1,6 +1,6 @@
 from . import bode, login_manager, db
 from flask import request, render_template, redirect, flash
-from .models import User, Class
+from .models import User, Class, GameLevels
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 import re
@@ -81,7 +81,9 @@ def changePassword():
 def profile():
     if current_user.type == 'admin':
         all_classes = Class.query.order_by(Class.date).all()
-        return render_template('UserProfiles/admin/home.html', classes=all_classes)
+        all_levels = GameLevels.query.order_by(GameLevels.level).all()
+        count = GameLevels.query.count()
+        return render_template('UserProfiles/admin/home.html', classes=all_classes,  levels=all_levels, l=count+1)
     else:
         return render_template('UserProfiles/student/home.html')
 
