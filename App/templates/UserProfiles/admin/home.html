@@ -3,37 +3,76 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-<h3>Home</h3>
-<hr/>
-    <form action="/create_class" method="post" enctype="multipart/form-data">
-        <label for="class_name">Name</label>
-        <input type="text" name="class_name" id="class_name" required/></br>
-        <label for="class_json">Create a new class</label>
-        <input type="file" name="class_json" id="class_json" required/><br/>
-        <input type="submit" name="Submit"/>
-    </form><hr/>
-    <div id="classes">
-    {% for class in classes %}
-    <div id="{{class.id}}">{{class.name}}&emsp;
-        Status: {{class.type}}&emsp;
-        <button onclick="archiveClass(this.parentNode.id);">Archive</button>&emsp;
-        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
-    </div><br/>
-    {% endfor %}
+ <div class="container-fluid">
+     <div class="row justify-content-md-center p-3">
+         <div class="col col-lg-1">
+             <h3>Home</h3>
+         </div>
+     </div>
+        <div class="row">
+            <div class="col ps-5 pe-5 border-end border-primary">
+                <form id='class-form' action="/create_class" method="post" enctype="multipart/form-data">
+                    <div class="row mb-3">
+                        <h4>Create New Class</h4>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="class_name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="class_name" id="class_name" required/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="class_json" class="col-sm-2 col-form-label form-label">Json File</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="class_json" id="class_json" required/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <input type="submit" name="Submit" class="btn btn-primary"/>
+                        </div>
+                    </div>
+                </form>
+                <div id="classes">
+                    {% for class in classes %}
+                    <div id="{{class.id}}">{{class.name}}&emsp;
+                        Status: {{class.type}}&emsp;
+                        <button onclick="archiveClass(this.parentNode.id);">Archive</button>&emsp;
+                        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
+                    </div><br/>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col ps-5 pe-5 border-primary border-start">
+                <form action="/addGame" method="post" enctype="multipart/form-data">
+                    <div class="row mb-3">
+                        <h4>Create New Level</h4>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="level_answer" class="col-sm-2 col-form-label">Answer</label>
+                        <div class="col-sm-10">
+                            <input type="number" name="level_answer" id="level_answer" required/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <input type="submit" name="Submit" class="btn btn-primary"/>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="levels">
+                    {% for level in levels %}
+                    <div id="{{level.id}}">{{level.level}}&emsp;
+                        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
+                    </div><br/>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-
-    <form action="/addGame" method="post" enctype="multipart/form-data">
-        <label for="level_answer">Answer</label>
-        <input type="number" name="level_answer" id="level_answer" required/><br/>
-        <input type="submit" name="Submit"/>
-    </form><hr/>
-    {% for level in levels %}
-    <div id="{{level.id}}">{{level.level}}&emsp;
-        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
-    </div><br/>
-    {% endfor %}
-
 
 <div id="result"></div>
 <script src="/static/javascript/home.js"></script>
+<link rel="stylesheet" href="/static/css/home.css">
  {% endblock %}

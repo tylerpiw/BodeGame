@@ -56,13 +56,11 @@ def class_stats_post():
     returnTag = '<tr><th>Rank</th><th>Username</th><th>Level</th><th>Score</th></tr>'
     for user in users:
         returnTag += '<tr id={0}>' \
-                        '<td>1</td>' \
-                        '<td>{0}</td>' \
-                        '<td>{1}</td>' \
-                        '<td>{2}</td>' \
+                     '<td>1</td>' \
+                     '<td>{0}</td>' \
+                     '<td>{1}</td>' \
+                     '<td>{2}</td>' \
                      '</tr>'.format(user.username, user.game_data[0].level, user.game_data[0].score)
-
-    print(returnTag)
     return returnTag
 
 
@@ -79,9 +77,6 @@ def class_delete():
     class_ = Class.query.filter_by(id=class_id).first()
     db.session.delete(class_)
     db.session.commit()
-    rem = User.query.order_by(User.id).all()
-    for i in rem:
-        print(i.id, i.username)
     return 'class deleted'
 
 
@@ -111,7 +106,7 @@ def class_actions(action):
 @login_required
 def addGame():
     if current_user.type == 'admin':
-        level = GameLevels.query.count()+1
+        level = GameLevels.query.count() + 1
         answer = request.form.get('level_answer')
         new = GameLevels(level=level, answer=answer)
         db.session.add(new)
@@ -120,4 +115,3 @@ def addGame():
     else:
         flash('Not Authorised')
         redirect('/user')
-
