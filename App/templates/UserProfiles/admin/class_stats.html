@@ -3,17 +3,33 @@
 {% block title %} Stats {% endblock %}
 
 {% block content %}
-<h3>Check Stats</h3>
-<hr/>
-  <label for="class">Choose a class:</label>
-  <select id="class" name="class">
-      {% for class in classes %}
-       <option value={{class.id}}>{{class.name}}</option>
-      {% endfor %}
-  </select>
-  <button onclick="getClassStats();">Get Data</button>
-<hr/>
-    <table id="students"></table>
+<div class="container-fluid">
+    <div class="row justify-content-md-center p-2">
+        <div class="col col-md-auto">
+            <h3>Check Stats</h3>
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col col-md-auto">
+            <label for="class" class="form-label">Choose a class:</label>
+        </div>
+        <div class="col">
+            <select id="class" name="class" class="form-select" aria-label="Default">
+                {% for class in classes %}
+                    <option value={{class.id}}>{{class.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <button onclick="getClassStats();" class="btn btn-primary">Get Data</button>
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col">
+            <table id="students" class="table table-hover"></table>
+        </div>
+    </div>
+</div>
 
 
 <script src="/static/javascript/class_stats.js"></script>

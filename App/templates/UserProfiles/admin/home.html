@@ -33,15 +33,22 @@
                         </div>
                     </div>
                 </form>
-                <div id="classes">
-                    {% for class in classes %}
-                    <div id="{{class.id}}">{{class.name}}&emsp;
-                        Status: {{class.type}}&emsp;
-                        <button onclick="archiveClass(this.parentNode.id);">Archive</button>&emsp;
-                        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
-                    </div><br/>
-                    {% endfor %}
-                </div>
+                {% for class in classes %}
+                    <div class="row p-2" id="{{class.id}}">
+                        <div class="col">
+                            {{class.name}}
+                        </div>
+                        <div class="col">
+                            Status: {{class.type}}
+                        </div>
+                        <div class="col">
+                            <button onclick="archiveClass(this.parentNode.parentNode.id);" class="btn btn-outline-warning">Archive</button>
+                        </div>
+                        <div class="col">
+                            <button onclick="deleteClass(this.parentNode.parentNode.id);" class="btn btn-outline-danger">Delete</button>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
             <div class="col ps-5 pe-5 border-primary border-start">
                 <form action="/addGame" method="post" enctype="multipart/form-data">
@@ -69,9 +76,17 @@
 
                 <div id="levels">
                     {% for level in levels %}
-                    <div id="{{level.id}}">Level {{level.level}}&emsp; Answer {{level.answer}}&emsp;
-                        <button onclick="deleteClass(this.parentNode.id);">Delete</button>
-                    </div><br/>
+                        <div class="row p-2" id="{{level.id}}">
+                            <div class="col">
+                                Level {{level.level}}
+                            </div>
+                            <div class="col">
+                                Answer {{level.answer}}
+                            </div>
+                            <div class="col">
+                                <button onclick="deleteClass(this.parentNode.parentNode.id);" class="btn btn-outline-danger">Delete</button>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
