@@ -42,38 +42,38 @@ def changePassword():
     lengthOfPassword = len(password)
 
     if (lengthOfPassword < 8):
-        Condition += "\n minimum 8 characters required"
+        Condition += "Minimum 8 characters required; "
 
     if not re.search("[a-z]", password):
-        Condition += "\n minimum 1 Lowercase character required"
+        Condition += "Minimum 1 Lowercase character required; "
 
     if not re.search("[A-Z]", password):
-        Condition += "\n minimum 1 Uppercase character required"
+        Condition += "Minimum 1 Uppercase character required; "
 
     if not re.search("\d", password):
-        Condition += "\n minimum 1 numerical digit required "
+        Condition += "Minimum 1 numerical digit required; "
 
     if not re.search("[_@$]", password):
-        Condition += "\n minimum 1 special character required"
+        Condition += "Minimum 1 special character required; "
 
     if re.search("\s", password):
-        Condition += "\n no whitespace character"
+        Condition += "No whitespace character; "
 
     if password == old_password:
-        Condition += '\n New Password same as old Password'
+        Condition += 'New Password same as old Password; '
 
     if password != confirm_password:
-        Condition += "\n Passwords don't Match"
+        Condition += "Passwords don't Match; "
 
     if Condition != "":
-        flash("Not a Valid Password as \n" + Condition)
+        flash("Not a Valid Password as; " + Condition)
     else:
         # Valid Password
-        flash('password changed!')
+        flash('Password changed!')
         current_user.password = generate_password_hash(new_password)
         current_user.first_login = False
         db.session.commit()
-        return redirect('/user')
+    return redirect('/user')
 
 
 @bode.route('/user')

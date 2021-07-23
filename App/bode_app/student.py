@@ -1,7 +1,7 @@
 from . import bode, db
 from flask_login import login_required, current_user
 from flask import request, render_template, redirect, flash
-from .models import GameLevels
+from .models import GameLevels, User
 
 
 @bode.route('/messaging', methods=['GET', 'POST'])
@@ -38,4 +38,7 @@ def game():
 @bode.route('/leaderboard')
 @login_required
 def leaderboard():
-    return render_template('UserProfiles/student/leaderboard.html')
+    students = User.query.filter_by(class_id=current_user.class_id)
+    for i in students:
+        print(i.game_data[0].score)
+    return render_template('UserProfiles/student/leaderboard.html', students=students)
