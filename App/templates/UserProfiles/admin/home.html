@@ -39,7 +39,7 @@
                             {{class.name}}
                         </div>
                         <div class="col">
-                            Status: {{class.type}}
+                            Status: <div class="font-monospace" id="status_{{class.id}}">{{class.type}}</div>
                         </div>
                         <div class="col">
                             <button onclick="archiveClass(this.parentNode.parentNode.id);" class="btn btn-outline-warning">Archive</button>
@@ -93,7 +93,6 @@
         </div>
     </div>
 
-<div id="result"></div>
 <script src="/static/javascript/home.js"></script>
 <link rel="stylesheet" href="/static/css/home.css">
  {% endblock %}

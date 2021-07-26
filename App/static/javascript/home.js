@@ -2,7 +2,8 @@ function deleteClass(id){
     var	request	= new XMLHttpRequest();
     request.onreadystatechange = function(){
 	if (this.readyState === 4 && this.status === 200){
-		document.getElementById("result").innerHTML = this.response;}};
+		document.getElementById(id).remove();
+		}};
     request.open("POST", "/class/class_delete");
     request.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
     let	data =	{'class_id': Number(id)}
@@ -13,8 +14,8 @@ function archiveClass(id){
     var	request	= new XMLHttpRequest();
     request.onreadystatechange = function(){
 	if (this.readyState === 4 && this.status === 200){
-	    console.log(this.response)
-		document.getElementById("result").innerHTML = this.response;}};
+		document.getElementById("status_"+id).innerHTML = 'archived';
+		}};
     request.open("POST", "/class/class_archive");
     request.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
     let	data =	{'class_id': Number(id)}
