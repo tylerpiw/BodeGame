@@ -13,7 +13,7 @@ def createFromJson(class_name, class_data):
     db.session.add(current_class)
     for c in class_data:
         password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-        current_student = User(username=c.split('@')[0],
+        current_student = User(nickname=c.split('@')[0],
                                class_id=current_class.id,
                                type='student',
                                email=c,
@@ -55,7 +55,7 @@ def class_stats_post():
     users = User.query.filter_by(class_id=class_id).all()
     returnTag = '<tr>' \
                 '<th>Rank</th>' \
-                '<th>Username</th>' \
+                '<th>Nickname</th>' \
                 '<th>Level</th>' \
                 '<th>Score</th>' \
                 '</tr>'
@@ -65,7 +65,7 @@ def class_stats_post():
                      '<td>{0}</td>' \
                      '<td>{1}</td>' \
                      '<td>{2}</td>' \
-                     '</tr>'.format(user.username, user.game_data[0].level, user.game_data[0].score)
+                     '</tr>'.format(user.nickname, user.game_data[0].level, user.game_data[0].score)
     return returnTag
 
 

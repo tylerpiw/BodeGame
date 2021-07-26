@@ -23,9 +23,9 @@ def login():
     elif request.method == 'GET':
         return render_template('Login/Login.html')
     elif request.method == 'POST':
-        username = request.form.get("login-username", '')
+        nickname = request.form.get("login-username", '')
         password = request.form.get("login-password", '')
-        current = User.query.filter_by(username=username).first()
+        current = User.query.filter_by(nickname=nickname).first()
         if not current:
             flash('User does not exits')
         elif check_password_hash(current.password, password):

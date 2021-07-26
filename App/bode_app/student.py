@@ -39,6 +39,4 @@ def game():
 @login_required
 def leaderboard():
     students = User.query.filter_by(class_id=current_user.class_id)
-    for i in students:
-        print(i.game_data[0].score)
     return render_template('UserProfiles/student/leaderboard.html', students=students)

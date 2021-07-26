@@ -14,8 +14,8 @@ def bode_app():
     db.init_app(app)
     with app.app_context():
         db.create_all()
-        if models.User.query.filter_by(username='Test_Admin').first() is None:
-            admin = models.User(username='Test_Admin',
+        if models.User.query.filter_by(nickname='Test_Admin').first() is None:
+            admin = models.User(nickname='Test_Admin',
                                 class_id=-1,
                                 type='admin',
                                 email='Test_Admin@buffalo.edu',
