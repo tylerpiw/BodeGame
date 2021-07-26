@@ -54,10 +54,10 @@ def class_stats_post():
     class_id = request.json.get('class_id')
     users = User.query.filter_by(class_id=class_id).all()
     returnTag = '<tr>' \
-                    '<th>Rank</th>' \
-                    '<th>Username</th>' \
-                    '<th>Level</th>' \
-                    '<th>Score</th>' \
+                '<th>Rank</th>' \
+                '<th>Username</th>' \
+                '<th>Level</th>' \
+                '<th>Score</th>' \
                 '</tr>'
     for user in users:
         returnTag += '<tr id={0}>' \
@@ -117,6 +117,20 @@ def addGame():
         db.session.add(new)
         db.session.commit()
         return redirect('/user')
+    else:
+        flash('Not Authorised')
+        redirect('/user')
+
+
+@bode.route('/deleteLevel', methods=['POST'])
+@login_required
+def deleteLeve():
+    if current_user.type == 'admin':
+        level_id = request.json.get('level_id')
+        lvl = GameLevels.query.filter_by(id=level_id).first()
+        db.session.delete(lvl)
+        db.session.commit()
+        return 'deleted Level'
     else:
         flash('Not Authorised')
         redirect('/user')
