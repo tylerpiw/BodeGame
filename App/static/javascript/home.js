@@ -28,7 +28,7 @@ function deleteLevel(id){
 	if (this.readyState === 4 && this.status === 200){
 		document.getElementById(id).remove();
 		}};
-    request.open("POST", "/deleteLevel");
+    request.open("POST", "/game/delete");
     request.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
     let	data =	{'level_id': Number(id)}
     request.send(JSON.stringify(data));

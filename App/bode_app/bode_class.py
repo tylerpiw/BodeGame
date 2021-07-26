@@ -85,7 +85,7 @@ def class_delete():
     return 'class deleted'
 
 
-actionDictionary = {
+actionDictionary_class = {
     'GET': {
         'class_stats_get': class_stats_get
     },
@@ -101,36 +101,44 @@ actionDictionary = {
 @login_required
 def class_actions(action):
     if current_user.type == 'admin':
-        return actionDictionary[request.method][action]()
+        return actionDictionary_class[request.method][action]()
     else:
         flash('Not Authorised')
-        redirect('/user')
-
-
-@bode.route('/addGame', methods=['POST'])
-@login_required
-def addGame():
-    if current_user.type == 'admin':
-        level = GameLevels.query.count() + 1
-        answer = request.form.get('level_answer')
-        new = GameLevels(level=level, answer=answer)
-        db.session.add(new)
-        db.session.commit()
         return redirect('/user')
-    else:
-        flash('Not Authorised')
-        redirect('/user')
 
 
-@bode.route('/deleteLevel', methods=['POST'])
+def addGame():
+    level = GameLevels.query.count() + 1
+    answer = request.form.get('level_answer')
+    new = GameLevels(level=level, answer=answer)
+    db.session.add(new)
+    db.session.commit()
+    return redirect('/user')
+
+
+def deleteLevel():
+    level_id = request.json.get('level_id')
+    lvl = GameLevels.query.filter_by(id=level_id).first()
+    db.session.delete(lvl)
+    db.session.commit()
+    return 'deleted Level'
+
+
+
+actionDictionary_game = {
+    'POST': {
+        'add': addGame,
+        'delete': deleteLevel,
+        'update': ''
+    }
+}
+
+
+@bode.route('/game/<action>', methods=['GET', 'POST'])
 @login_required
-def deleteLeve():
+def game_actions(action):
     if current_user.type == 'admin':
-        level_id = request.json.get('level_id')
-        lvl = GameLevels.query.filter_by(id=level_id).first()
-        db.session.delete(lvl)
-        db.session.commit()
-        return 'deleted Level'
+        return actionDictionary_game[request.method][action]()
     else:
         flash('Not Authorised')
-        redirect('/user')
+        return redirect('/user')
