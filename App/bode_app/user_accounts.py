@@ -8,7 +8,12 @@ import re
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    user = User.query.get(user_id)
+    status = user.class_id
+    if status == -1 or user.Class.type == 'active':
+        return user
+    else:
+        return None
 
 
 @bode.route('/', methods=['POST', 'GET'])
