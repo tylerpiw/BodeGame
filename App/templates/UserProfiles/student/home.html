@@ -9,6 +9,11 @@
                   <h3>Home</h3>
             </div>
       </div>
+      <div class="row">
+            <div class="col-auto ps-4">
+                  <h5>Change Password</h5>
+            </div>
+      </div>
       <form action="/set_password" id=login-form" method="post" enctype="multipart/form-data" class="row gy-2 gx-3 align-items-center p-4">
             <div class="col-auto">
                   <label for="old-password">Enter Current Password: </label>
@@ -25,14 +30,19 @@
             <div class="col-auto">
                   <button type="submit" class="btn btn-primary">Make Changes</button>
             </div>
-      </form>
-      <form action="/set_password" id=nickname-form" method="post" enctype="multipart/form-data" class="row p-4">
+      </form><hr/>
+      <div class="row">
+            <div class="col-auto ps-4">
+                  <h5>Change Nickname</h5>
+            </div>
+      </div>
+      <form action="/changeNickname" id=nickname-form" method="post" enctype="multipart/form-data" class="row gy-2 gx-3 p-4">
             <div class="col">
-                  <label>Current Nickname: {{current_user.username}}</label>
+                  <label>Current Nickname: {{current_user.nickname}}</label>
             </div>
             <div class="col">
-                  <label for="new-nickname">New Nickname: </label>
-                  <input id="new-nickname" type="password" name="new-password" required>
+                  <label for="nickname">New Nickname: </label>
+                  <input id="nickname"  name="nickname" required>
             </div>
             <div class="col">
                   <button type="submit" class="btn btn-primary">Make Changes</button>

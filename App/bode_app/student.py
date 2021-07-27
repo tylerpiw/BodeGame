@@ -40,3 +40,11 @@ def game():
 def leaderboard():
     students = User.query.filter_by(class_id=current_user.class_id)
     return render_template('UserProfiles/student/leaderboard.html', students=students)
+
+@bode.route('/changeNickname', methods=['POST'])
+@login_required
+def changeNickname():
+    new = request.form.get('nickname')
+    current_user.nickname = new
+    db.session.commit()
+    return redirect('/user')
